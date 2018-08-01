@@ -34,25 +34,20 @@ export class GameService {
             tiles: [...this.board.tiles]
         });
 
-        if (this.isWinningGame()) {
+        if (isWinningGame(this.board)) {
             this.gameComplete.next();
         }
     }
+}
 
-    isWinningGame(): boolean {
-        if (this.board.tiles[0] === null) {
+export function isWinningGame(board: Board): boolean {
+    for (let i = 1; i < board.tiles.length - 1; i++) {
+        if (board.tiles[i] === null
+            || board.tiles[i - 1] === null
+            || board.tiles[i - 1] > board.tiles[i]) {
             return false;
         }
-
-        let isSorted = true;
-        for (let i = 1; i < this.board.tiles.length; i++) {
-            if (this.board.tiles[i] !== null
-                && this.board.tiles[i] < this.board.tiles[i - 1]) {
-                isSorted = false;
-                break;
-            }
-        }
-
-        return isSorted;
     }
+
+    return true;
 }
