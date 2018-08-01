@@ -1,0 +1,21 @@
+.board {
+    min-width: 330px;
+}
+
+.tile {
+    box-sizing: border-box;
+    color: white;
+    font-size: 22px;
+    background-color: dodgerblue;
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 70px;
+    cursor: pointer;
+    float: left;
+  }
+  
+  .clear {
+    clear: both;
+  }

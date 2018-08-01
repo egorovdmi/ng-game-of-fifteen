@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-sm-12">
+      <h1>Game of Fifteen</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 board">
+      <div 
+        *ngFor="let tile of board.tiles; let i = index"
+        class="tile"
+        [ngClass]="{ clear: i % board.rowSize === 0 }" (click)="onMove(i)">
+        {{tile}}
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm-12">
+      Moves count: {{board.turnCount}}
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <button class="btn btn-danger" (click)="onReset()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>

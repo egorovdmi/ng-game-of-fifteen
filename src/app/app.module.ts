@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { GameModule } from './game/game.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -8,7 +9,8 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    GameModule
   ],
   providers: [],
   bootstrap: [AppComponent]

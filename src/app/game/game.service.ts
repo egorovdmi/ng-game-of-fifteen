@@ -8,6 +8,7 @@ import { TileLocation, getNearTileIndexes } from './tile-location.model';
 export class GameService {
     private board: Board;
     boardChanged = new Subject<Board>();
+    gameComplete = new Subject();
 
     constructor(private boardGeneratorService: BoardGeneratorService) {
     }
@@ -17,20 +18,41 @@ export class GameService {
         this.boardChanged.next(this.board);
     }
 
-    move(tileIndex: number): boolean {
+    move(tileIndex: number): void {
         const nearTileIndexes = getNearTileIndexes(this.board.rowSize, tileIndex);
         const emptyTileIndex = nearTileIndexes.find((index) => this.board.tiles[index] === null);
         if (emptyTileIndex === undefined) {
-            return false;
+            return;
         }
 
         [this.board.tiles[tileIndex], this.board.tiles[emptyTileIndex]]
             = [this.board.tiles[emptyTileIndex], this.board.tiles[tileIndex]];
+        this.board.turnCount++;
+
         this.boardChanged.next({
             ...this.board,
-            tiles: [...this.board.tiles],
-            turnCount: this.board.turnCount++
+            tiles: [...this.board.tiles]
         });
-        return true;
+
+        if (this.isWinningGame()) {
+            this.gameComplete.next();
+        }
+    }
+
+    isWinningGame(): boolean {
+        if (this.board.tiles[0] === null) {
+            return false;
+        }
+
+        let isSorted = true;
+        for (let i = 1; i < this.board.tiles.length; i++) {
+            if (this.board.tiles[i] !== null
+                && this.board.tiles[i] < this.board.tiles[i - 1]) {
+                isSorted = false;
+                break;
+            }
+        }
+
+        return isSorted;
     }
 }
